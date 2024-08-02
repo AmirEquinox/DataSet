@@ -1,25 +1,42 @@
+
 #include <iostream>
+#include <fstream>
+#include <stdexcept>
 
-int fibonacciIterative(int n)
-{
-   if (n <= 1)
-      return n;
+// RAII class for file handling 
+class FileHandle { 
+public:
+    FileHandle(const std::string& filename) { 
+        file.open(filename);
+        if ( !file.is_open() ) {
+            throw std::runtime_error("Failed to open file");
+        }
+    }
 
-   int prev = 0, curr = 1;
-   for (int i = 2; i <= n; i++)
-   {
-      int next = prev + curr;
-      prev = curr;
-      curr = next;
-   }
-   return curr;
+    ~FileHandle() {
+        if (file.is_open()) {
+            file.close();
+        }
+    }
+
+    std::ifstream& getFile() {
+        return file;
+    }
+
+private:
+    std::ifstream file;
+};
+
+int main() {
+    try {
+        FileHandle file("example.txt");
+        std::string line;
+        while (std::getline(file.getFile(), line)) {
+            std::cout << line << std::endl;
+        }
+    } catch (const std::exception& e) {
+        std::cerr << "Error: " << e.what() << std::endl;
+    }
+
+    return 0;
 }
-
-int main()
-{
-   int n = 10;
-   std::cout << "Fibonacci (Iterative) of " << n << ": " << fibonacciIterative(n) << std::endl; // Output: 55
-   return 0;
-}
-
- 

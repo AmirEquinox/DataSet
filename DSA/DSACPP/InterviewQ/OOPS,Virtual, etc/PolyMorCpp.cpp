@@ -20,6 +20,10 @@ int main() {
     Animal* myAnimal = new Dog();
     myAnimal->makeSound();  // Output: Bark
 
+    // Obj
+    Animal Anim ;
+    Anim.makeSound();
+
     delete myAnimal;
     return 0;
 }
@@ -38,26 +42,7 @@ int main() {
 }
 
 
-------------------------------------------------------------
-
-#include <iostream>
-#include <stdexcept>
-
-int divide(int a, int b) {
-    if (b == 0) {
-        throw std::invalid_argument("Division by zero");
-    }
-    return a / b;
-}
-
-int main() {
-    try {
-        std::cout << divide(10, 0) << std::endl;
-    } catch (const std::invalid_argument& e) {
-        std::cerr << "Error: " << e.what() << std::endl;
-    }
-    return 0;
-}
+ 
 ------------------------------------------------------------
 
 #include <iostream>
@@ -121,12 +106,12 @@ int main() {
 #include <fstream>
 #include <stdexcept>
 
-// RAII class for file handling
-class FileHandle {
+// RAII class for file handling 
+class FileHandle { 
 public:
-    FileHandle(const std::string& filename) {
+    FileHandle(const std::string& filename) { 
         file.open(filename);
-        if (!file.is_open()) {
+        if ( !file.is_open() ) {
             throw std::runtime_error("Failed to open file");
         }
     }
@@ -205,20 +190,24 @@ int main() {
 
 ------------------------------------------------------------
 
-
-Here are explanations and code examples for each of the C++ programming concepts and questions you mentioned. These are common topics that might come up in an interview for a C++ programmer role.
-
+/*
+ 
 Key Features of C++
-C++ is a powerful programming language that supports a wide range of features, making it suitable for various applications, from system programming to game development. Here are some key features:
+C++ is a powerful programming language that supports a wide range of features, making it suitable for various applications,
+ from system programming to game development. Here are some key features:
 
 1. Object-Oriented Programming (OOP)
 Classes and Objects: C++ supports defining classes that encapsulate data and functions. Objects are instances of these classes.
+
 Encapsulation: It allows bundling data and functions that operate on the data within a single unit (class).
+
 Inheritance: C++ enables creating new classes based on existing ones, promoting code reuse.
+
 Polymorphism: It supports polymorphism, allowing objects to be treated as instances of their parent class.
-Example:
-cpp
-Copy code
+
+Example:--
+ 
+*/
 #include <iostream>
 
 // Base class
@@ -244,192 +233,7 @@ int main() {
     delete myAnimal;
     return 0;
 }
-2. Templates
-Function Templates: Write generic functions that work with any data type.
-Class Templates: Define classes that can work with any data type.
-Example:
-cpp
-Copy code
-#include <iostream>
-template <typename T>
-T add(T a, T b) {
-    return a + b;
-}
-
-int main() {
-    std::cout << add(5, 10) << std::endl;        // Output: 15
-    std::cout << add(5.5, 10.3) << std::endl;    // Output: 15.8
-    return 0;
-}
-3. Exception Handling
-Try-Catch Blocks: Handle exceptions gracefully using try-catch blocks.
-Standard Exceptions: Use standard exceptions provided by the library.
-Example:
-cpp
-Copy code
-#include <iostream>
-#include <stdexcept>
-
-int divide(int a, int b) {
-    if (b == 0) {
-        throw std::invalid_argument("Division by zero");
-    }
-    return a / b;
-}
-
-int main() {
-    try {
-        std::cout << divide(10, 0) << std::endl;
-    } catch (const std::invalid_argument& e) {
-        std::cerr << "Error: " << e.what() << std::endl;
-    }
-    return 0;
-}
-4. Standard Libraries
-STL (Standard Template Library): Provides a set of common data structures and algorithms like vectors, lists, and sort.
-IO Streams: Includes standard input/output operations.
-Example:
-cpp
-Copy code
-#include <iostream>
-#include <vector>
-#include <algorithm>
-
-int main() {
-    std::vector<int> numbers = {3, 1, 4, 1, 5, 9, 2};
-    std::sort(numbers.begin(), numbers.end());
-
-    std::cout << "Sorted numbers: ";
-    for (int num : numbers) {
-        std::cout << num << " ";
-    }
-    std::cout << std::endl; // Output: 1 1 2 3 4 5 9
-
-    return 0;
-}
-5. Manual Memory Management
-Dynamic Memory Allocation: Use new and delete to manage memory manually.
-Example:
-cpp
-Copy code
-#include <iostream>
-
-int main() {
-    int* ptr = new int(10);  // Allocate memory
-    std::cout << *ptr << std::endl;  // Output: 10
-
-    delete ptr;  // Free memory
-    ptr = nullptr;
-
-    return 0;
-}
-Explanation:
-Object-Oriented Programming: C++ is known for its OOP capabilities, which allow developers to model real-world problems using classes and objects. This approach promotes code reuse and maintainability.
-Templates: C++ templates enable writing generic code that works with any data type, making it highly flexible and reusable.
-Exception Handling: C++ provides robust exception-handling mechanisms to manage runtime errors gracefully.
-Standard Libraries: The STL offers a wide range of data structures and algorithms, simplifying common programming tasks.
-Manual Memory Management: C++ allows developers to control memory allocation and deallocation, enabling fine-tuned optimization but also requiring careful management to avoid memory leaks.
-Explain the Concept of RAII (Resource Acquisition Is Initialization) in C++
-Explanation:
-RAII (Resource Acquisition Is Initialization) is a programming idiom used in C++ to manage resources such as memory, file handles, and network connections. The key idea is that resource management is tied to the lifetime of objects. When an object is created, it acquires the necessary resources, and when the object is destroyed, it releases those resources. This approach helps prevent resource leaks and ensures that resources are released properly, even in the presence of exceptions.
-
-Example:
-cpp
-Copy code
-#include <iostream>
-#include <fstream>
-#include <stdexcept>
-
-// RAII class for file handling
-class FileHandle {
-public:
-    FileHandle(const std::string& filename) {
-        file.open(filename);
-        if (!file.is_open()) {
-            throw std::runtime_error("Failed to open file");
-        }
-    }
-
-    ~FileHandle() {
-        if (file.is_open()) {
-            file.close();
-        }
-    }
-
-    std::ifstream& getFile() {
-        return file;
-    }
-
-private:
-    std::ifstream file;
-};
-
-int main() {
-    try {
-        FileHandle file("example.txt");
-        std::string line;
-        while (std::getline(file.getFile(), line)) {
-            std::cout << line << std::endl;
-        }
-    } catch (const std::exception& e) {
-        std::cerr << "Error: " << e.what() << std::endl;
-    }
-
-    return 0;
-}
-Explanation:
-RAII Class: The FileHandle class is an example of RAII. It acquires the file resource in its constructor and releases it in the destructor.
-Automatic Resource Management: The file is automatically closed when the FileHandle object goes out of scope, ensuring proper resource management even in case of exceptions.
-Exception Safety: RAII ensures that resources are properly released even if an exception occurs, preventing resource leaks.
-How Does Polymorphism Work in C++?
-Explanation:
-Polymorphism in C++ allows objects of different classes to be treated as objects of a common base class. This enables flexibility and reusability in code. C++ supports two types of polymorphism:
-
-Compile-Time Polymorphism: Achieved through function overloading and operator overloading.
-Run-Time Polymorphism: Achieved through inheritance and virtual functions.
-Example:
-cpp
-Copy code
-#include <iostream>
-
-// Base class
-class Shape {
-public:
-    virtual void draw() const {
-        std::cout << "Drawing a generic shape" << std::endl;
-    }
-
-    virtual ~Shape() = default;
-};
-
-// Derived class
-class Circle : public Shape {
-public:
-    void draw() const override {
-        std::cout << "Drawing a circle" << std::endl;
-    }
-};
-
-// Another derived class
-class Rectangle : public Shape {
-public:
-    void draw() const override {
-        std::cout << "Drawing a rectangle" << std::endl;
-    }
-};
-
-int main() {
-    Shape* shape1 = new Circle();
-    Shape* shape2 = new Rectangle();
-
-    shape1->draw();  // Output: Drawing a circle
-    shape2->draw();  // Output: Drawing a rectangle
-
-    delete shape1;
-    delete shape2;
-
-    return 0;
-}
+ 
 Explanation:
 Virtual Functions: The draw() function in the base class Shape is declared as a virtual function, allowing derived classes to override it.
 Vtables: At runtime, C++ uses a virtual table (vtable) to determine which function to call, enabling polymorphic behavior.
