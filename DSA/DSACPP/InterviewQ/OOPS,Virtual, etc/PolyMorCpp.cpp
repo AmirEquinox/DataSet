@@ -233,7 +233,7 @@ int main() {
     delete myAnimal;
     return 0;
 }
- 
+ /*
 Explanation:
 Virtual Functions: The draw() function in the base class Shape is declared as a virtual function, allowing derived classes to override it.
 Vtables: At runtime, C++ uses a virtual table (vtable) to determine which function to call, enabling polymorphic behavior.
@@ -249,6 +249,7 @@ Deep Copy: Duplicates the entire object, including the dynamically allocated mem
 Example:
 cpp
 Copy code
+*/
 #include <iostream>
 #include <cstring>
 
@@ -300,6 +301,8 @@ int main() {
 
     return 0;
 }
+
+/* 
 Explanation:
 Deep Copy: The copy constructor and assignment operator perform a deep copy by allocating new memory and copying the data.
 Separate Memory: Each MyString object has its own copy of the data, preventing shared memory issues.
@@ -316,6 +319,8 @@ std::weak_ptr: A smart pointer that doesn't own the resource but can observe it.
 Example:
 cpp
 Copy code
+*/
+
 #include <iostream>
 #include <memory>
 
@@ -354,6 +359,8 @@ int main() {
 
     return 0;
 }
+
+/* 
 Explanation:
 std::unique_ptr: Manages a single instance of a resource, ensuring it is deallocated when the std::unique_ptr goes out of scope. It doesn't allow copying, ensuring unique ownership.
 std::shared_ptr: Manages shared ownership of a resource, deallocating the resource only when the last std::shared_ptr is destroyed.
@@ -365,6 +372,8 @@ The const keyword in C++ is used to define immutable variables, function argumen
 Example:
 cpp
 Copy code
+
+*/
 #include <iostream>
 
 // Function with const argument
