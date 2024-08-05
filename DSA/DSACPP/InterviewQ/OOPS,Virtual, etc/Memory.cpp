@@ -85,6 +85,15 @@ Automatic Deallocation: Unlike manual memory management, there's no need to call
 Example 3: Using std::shared_ptr for Shared Ownership
 This example demonstrates using std::shared_ptr for scenarios where multiple entities need to share ownership of a resource.
 
+Destruction of Shared Pointers:
+
+When manageSharedMemory completes and the function scope ends, both numbers and numbersCopy are destroyed.
+Their destructors decrease the reference count. Since both are the only owners, their destruction results in the reference count reaching zero.
+The custom deleter (std::default_delete<int[]>) then deletes the array.
+Memory Deallocation:
+
+After the reference count reaches zero, the dynamically allocated memory for the array is deallocated automatically.
+
 */
 
 #include <iostream>
@@ -179,7 +188,7 @@ public:
 };
 
 int main() {
-    MyClass obj;  // Create an object of MyClass
+    MyClass obj;        // Create an object of MyClass
     obj.printArrays();  // Print array contents
 
     std::cout << "Memory managed within a class context." << std::endl;

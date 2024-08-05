@@ -1,42 +1,48 @@
-
 #include <iostream>
-#include <fstream>
-#include <stdexcept>
+#include <memory>
 
-// RAII class for file handling 
-class FileHandle { 
-public:
-    FileHandle(const std::string& filename) { 
-        file.open(filename);
-        if ( !file.is_open() ) {
-            throw std::runtime_error("Failed to open file");
-        }
-    }
-
-    ~FileHandle() {
-        if (file.is_open()) {
-            file.close();
-        }
-    }
-
-    std::ifstream& getFile() {
-        return file;
-    }
-
+class MyClass {
 private:
-    std::ifstream file;
+    int* manualArray;                          // Manually managed array
+    std::unique_ptr<int[]> uniquePtrArray;     // Unique pointer managed array
+
+public:
+    // Constructor
+    MyClass() : manualArray(new int[5]), uniquePtrArray(new int[5]) {
+        // Initialize arrays with values
+        for (int i = 0; i < 5; ++i) {
+            manualArray[i] = i + 1;            // Initialize manually managed array
+            uniquePtrArray[i] = (i + 1) * 10;  // Initialize smart pointer managed array
+        }
+    }
+
+    // Destructor
+    ~MyClass() {
+        // Deallocate manually managed memory
+        delete[] manualArray;
+    }
+
+    // Method to print arrays
+    void printArrays() const {
+        std::cout << "Manual Array: ";
+        for (int i = 0; i < 5; ++i) {
+            std::cout << manualArray[i] << " ";
+        }
+        std::cout << std::endl;
+
+        std::cout << "Unique Pointer Array: ";
+        for (int i = 0; i < 5; ++i) {
+            std::cout << uniquePtrArray[i] << " ";
+        }
+        std::cout << std::endl;
+    }
 };
 
 int main() {
-    try {
-        FileHandle file("example.txt");
-        std::string line;
-        while (std::getline(file.getFile(), line)) {
-            std::cout << line << std::endl;
-        }
-    } catch (const std::exception& e) {
-        std::cerr << "Error: " << e.what() << std::endl;
-    }
+    MyClass obj;        // Create an object of MyClass
+    obj.printArrays();  // Print array contents
+
+    std::cout << "Memory managed within a class context." << std::endl;
 
     return 0;
 }
